@@ -165,14 +165,17 @@ for($i=0; $i<148; $i++){
 	$title = strip_tags($fields['title'][$i]);
 	$details = strip_tags($data[$i]);
 
-	$query = "INSERT INTO medifee (title, details) VALUES ('$title', '$details')";
-	$query_run = $conn->query($query);
+
+	$stmt = $conn->prepare("INSERT INTO medifee (title, details) VALUES (:title, :details)");
+	$stmt->bindParam(':title', $title);
+	$stmt->bindParam(':details', $details);
+
+	$query_run = $stmt->execute();
 
 	if($query_run){
 
-		echo $i . "successful" . "<br>";
 	}else{
-		echo $i . "not" . "<br>";
+		echo $i . ' not';
 	}
 }                   		
 
